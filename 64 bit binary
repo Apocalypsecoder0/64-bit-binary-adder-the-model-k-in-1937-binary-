@@ -1,0 +1,66 @@
+# 64-bit Binary Adder (1937 Design)
+
+## Introduction
+A binary adder is a digital circuit that performs addition of binary numbers. In the context of a 64-bit binary adder, the circuit is designed to add two 64-bit binary numbers and produce a 64-bit sum along with a carry-out bit.
+
+## Components
+1. **Half Adder**: Adds two single binary digits and outputs a sum and a carry.
+2. **Full Adder**: Adds three binary digits (including carry from previous digit) and outputs a sum and a carry.
+
+### Half Adder
+A half adder adds two single binary digits and provides the sum and carry.
+
+**Truth Table:**
+| A | B | Sum | Carry |
+|---|---|-----|-------|
+| 0 | 0 |  0  |   0   |
+| 0 | 1 |  1  |   0   |
+| 1 | 0 |  1  |   0   |
+| 1 | 1 |  0  |   1   |
+
+**Logic:**
+- Sum = A XOR B
+- Carry = A AND B
+
+### Full Adder
+A full adder adds three binary digits (A, B, and carry-in) and provides the sum and carry-out.
+
+**Truth Table:**
+| A | B | Cin | Sum | Cout |
+|---|---|-----|-----|------|
+| 0 | 0 |  0  |  0  |   0  |
+| 0 | 0 |  1  |  1  |   0  |
+| 0 | 1 |  0  |  1  |   0  |
+| 0 | 1 |  1  |  0  |   1  |
+| 1 | 0 |  0  |  1  |   0  |
+| 1 | 0 |  1  |  0  |   1  |
+| 1 | 1 |  0  |  0  |   1  |
+| 1 | 1 |  1  |  1  |   1  |
+
+**Logic:**
+- Sum = A XOR B XOR Cin
+- Carry-out = (A AND B) OR (B AND Cin) OR (A AND Cin)
+
+## 64-bit Adder Design
+A 64-bit adder can be constructed by chaining 64 full adders in series. The carry-out of each full adder is connected to the carry-in of the next full adder in the series.
+
+### Block Diagram
+```
+A[63:0]  ----> | FA |----->| FA |----->...----->| FA |-----> Sum[63:0]
+B[63:0]  ----> |    |----->|    |----->...----->|    |
+C_in      ----> |    |----->|    |----->...----->|    |
+               C_out      C_out       C_out       C_out
+```
+
+### Step-by-Step Process
+1. **Initialize**: Set the initial carry-in (Cin) to 0.
+2. **Full Adder Chain**:
+   - For each bit position from 0 to 63:
+     - Compute the sum and carry-out using the full adder logic.
+     - Pass the carry-out to the carry-in of the next bit position.
+3. **Output**:
+   - The final sum is obtained from the sum outputs of each full adder.
+   - The carry-out of the last full adder represents the final carry-out of the addition.
+
+## Conclusion
+The 64-bit binary adder is a fundamental component in digital computing, enabling the addition of large binary numbers. The design principles outlined here, based on half adders and full adders, form the basis for more complex arithmetic operations in modern processors.
